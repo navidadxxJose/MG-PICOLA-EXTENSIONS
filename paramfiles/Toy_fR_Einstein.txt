@@ -1,16 +1,4 @@
-% =============================== %
-% This is the run parameters file % 
-% =============================== %
-
-% =============================== %
-% Modified gravity parameters
-% =============================== %
 modified_gravity_active  1              % f(R) simulation [1] or  LCDM [0]
-n_fR                    0.8           % The value of f_R(R) at the present time
-Omegam                  0.2685   
-Omegar                  0.0000909615
-OmegaDE                 0.7314
-h0_fR                   0.6711
 
 include_screening        1              % Include screening [1] or not [0]
 use_lcdm_growth_factors  1              % Use growth-factors computed in LCDM
@@ -22,8 +10,8 @@ amplitude_fixed_initial_condition 0     % If 1 then enforce amplitude |delta(k)|
 % ==================
 % Simulation outputs
 % ==================
-OutputDir                   output/Toy_fR/Toy_fR_27                         % Directory for output (must exist)
-FileBase                    Toy_fR_27                % Base-filename of output files (appropriate additions are appended on at runtime) 
+OutputDir                   output/Toy_fR_Einstein/Toy_fR_Einstein_0 %output/Toy_fR/Toy_fR_27                         % Directory for output (must exist)
+FileBase                    Toy_fR_Einstein_0                % Base-filename of output files (appropriate additions are appended on at runtime) 
 OutputRedshiftFile          files/output_redshifts.dat     % The file containing the redshifts that we want snapshots for
 NumFilesWrittenInParallel   4                              % Limits the number of files that are written in parallel when outputting
 
@@ -32,9 +20,9 @@ NumFilesWrittenInParallel   4                              % Limits the number o
 % =========================
 UseCOLA          1           % Whether or not to use the COLA method (1 = true, 0 = false).
 Buffer           1.5         % The amount of extra memory to reserve for particles moving between tasks during runtime.
-Nmesh            460          % This is the size of the FFT grid used to compute the displacement field and gravitational forces.
-Nsample          200          % This sets the total number of particles in the simulation, such that Ntot = Nsample^3.
-Box              450.0       % The Periodic box size of simulation.
+Nmesh            100%460          % This is the size of the FFT grid used to compute the displacement field and gravitational forces.
+Nsample          25%200          % This sets the total number of particles in the simulation, such that Ntot = Nsample^3.
+Box              100%450.0       % The Periodic box size of simulation.
 Init_Redshift    9.0        % The redshift to begin timestepping from (redshift = 9 works well for COLA)
 Seed             27        % Seed for IC-generator
 SphereMode       0           % If "1" only modes with |k| < k_Nyquist are used to generate initial conditions (i.e. a sphere in k-space), 
@@ -50,7 +38,7 @@ WhichTransfer    0           % "0" - Use power spectrum, not transfer function
                              % otherwise, Eisenstein and Hu (1998) parameterization used 
                              % For Non-Gaussian models this is required (rather than the power spectrum) 
 
-FileWithInputSpectrum  files/input_power_spectrum.dat      % filename of tabulated input spectrum (if used)
+FileWithInputSpectrum  files/Toy_fR_Einstein.dat      % filename of tabulated input spectrum (if used)
                                                            % expecting k Pk 
 
 FileWithInputTransfer  files/input_transfer_function.dat   % filename of tabulated transfer function (if used)
@@ -59,9 +47,9 @@ FileWithInputTransfer  files/input_transfer_function.dat   % filename of tabulat
 % =======================
 % Cosmological Parameters
 % =======================
-Omega            0.2685       % Total matter density (CDM + Baryons at z=0).
-OmegaBaryon      0.049       % Baryon density (at z=0).
-HubbleParam      0.6711        % Hubble parameter, 'little h' (may be used for power spectrum parameterization).
+Omega            0.292319       % Total matter density (CDM + Baryons at z=0).
+OmegaBaryon     0.0494697       % Baryon density (at z=0).
+HubbleParam     0.677651        % Hubble parameter, 'little h' (may be used for power spectrum parameterization).
 Sigma8           0.834         % Power spectrum normalization (power spectrum may already be normalized correctly).
 PrimordialIndex  0.9624       % Used to tilt the power spectrum for non-tabulated power spectra (if != 1.0 and nongaussian, generic flag required)
 
