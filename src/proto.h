@@ -98,6 +98,21 @@ double Toy_fR_xm_of_a(double a);
 #endif
 
 
+#ifdef Toy_fR_Einstein
+void   Toy_fR_Einstein_Solve_Background(double *omegam, double *h);
+double Toy_fR_Einstein_Hubble_of_a(double a);
+double Toy_fR_Einstein_dHubbleda_of_a(double a);
+double Toy_fR_Einstein_Mass2_of_a(double a);
+double Toy_fR_Einstein_M_1_of_a(double a);
+double Toy_fR_Einstein_M_2_of_a(double a);
+double Toy_fR_Einstein_u_of_a(double a);
+double Toy_fR_Einstein_du_of_a(double a);
+double Toy_fR_Einstein_rho_r_of_a(double a);
+double Toy_fR_Einstein_rho_m_of_a(double a);
+#endif
+
+
+
 //===================================================
 // Updated cosmo routines cosmo.c
 //===================================================

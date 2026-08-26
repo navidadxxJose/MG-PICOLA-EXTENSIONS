@@ -96,9 +96,14 @@ struct MySplineContainer{
   GSL_Spline phi_of_a_spline;  
 #endif 
 
+#ifdef Toy_fR_Einstein
+  GSL_Spline phi_of_a_spline;  
+#endif 
+
+
 } SplineContainer;
 
-#if defined(MBETAMODEL) || defined(Toy_fR)
+#if defined(MBETAMODEL) || defined(Toy_fR) || defined(Toy_fR_Einstein)
 //===============================================
 // The integrand for phi(a) defined above
 // Note dx = da/a so only a^3 in the denominator
@@ -679,7 +684,7 @@ void free_up_splines(){
 #endif
 #endif
 
-#if defined(MBETAMODEL) || defined(Toy_fR)
+#if defined(MBETAMODEL) || defined(Toy_fR) || defined(Toy_fR_Einstein)
   Free_GSL_Spline(&SplineContainer.phi_of_a_spline);
 #endif
 

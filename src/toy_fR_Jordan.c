@@ -3,7 +3,7 @@
 #include <gsl/gsl_integration.h>
 #include "wrappers.h"
 
-#define Toy_fR_EPSILON_CONVERGENCE 1e-6
+#define Toy_fR_EPSILON_CONVERGENCE 1e-11
 #define Toy_fR_REDSHIFT_START      1.e6
 #define Toy_fR_NPOINTS             10000
 

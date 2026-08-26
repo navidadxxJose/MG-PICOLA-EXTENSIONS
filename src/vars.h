@@ -182,6 +182,8 @@ extern double Omegam;                  // The physical matter density parameter 
 extern double OmegaDE;                 // The physical radiation density parameter Omegar 
 extern double Omegar;                   // The physical dark energy density parameter OmegaDE
 extern double h0_fR;                   // The physical dark energy density parameter OmegaDE
+//#elif defined(Toy_fR_Einstein)
+//extern double Omegam;                  // The physical matter density parameter Omegam 
 #elif defined(VCDM_model)
 extern double w0_VCDM;                     // Equation of state
 #endif

@@ -135,6 +135,47 @@ void init_modified_version(){
     // For (m,beta) models we need to compute Phi_crit(a) and store in spline
   if(modified_gravity_active) compute_phi_of_a();
 
+#elif defined(Toy_fR_Einstein)
+
+  if(ThisTask == 0 && modified_gravity_active){
+    printf("============================================\n");
+    printf("Running with Modified Gravity, toy f(R) model in Einstein Frame \n");
+    printf("============================================\n");
+    printf("  Modified gravity active = %i\n", modified_gravity_active);
+    printf("  Include screening       = %i\n", include_screening);
+    printf("  Use LCDM growthfactor   = %i\n", use_lcdm_growth_factors);
+    printf("  Input P(k) is for LCDM  = %i\n", input_pofk_is_for_lcdm);
+    printf("  Sigma8 is for LCDM      = %i\n", input_sigma8_is_for_lcdm);
+    printf("\n");
+    fflush(stdout);
+  }
+
+  // Solve background and get the Hubble parameter today
+  double h;
+  double Omegam_0;
+  Toy_fR_Einstein_Solve_Background(&Omegam_0, &h);
+  
+  // Set the values we find
+  HubbleParam = h;
+  Omega       = Omegam_0;
+
+  if(ThisTask == 0 && modified_gravity_active){
+    printf("Calling Toy f(R) Background Solver in Einstein Frame: \n");
+    printf(" OmegaM = %f\n", Omega);
+    printf(" We find HubbleParam: %f\n", HubbleParam);
+    printf("\nTest of Toy_fR splines: \n");
+    printf("H(a=1.0) = %7.3f  HLCDM(a=1.0) = %7.3f\n", hubble(1.0), 1.0);
+    printf("H(a=0.5) = %7.3f  HLCDM(a=0.5) = %7.3f\n", hubble(0.5), sqrt(Omega/(0.5*0.5*0.5) + 1.0 - Omega));
+    printf("H(a=0.1) = %7.3f  HLCDM(a=0.1) = %7.3f\n", hubble(0.1), sqrt(Omega/(0.1*0.1*0.1) + 1.0 - Omega));
+    fflush(stdout);
+    fflush(stdout);
+  }
+
+    // For (m,beta) models we need to compute Phi_crit(a) and store in spline
+  if(modified_gravity_active) compute_phi_of_a();
+
+
+
 
 #elif defined(VCDM_model)
 
@@ -416,7 +457,6 @@ void read_mg_parameters(void **addr, char (*tag)[50], int *id, int (*nt)){
   addr[(*nt)] = &nfofr;
   id[(*nt)++] = FLOAT;
 
-
 #elif defined(Toy_fR)
 
   strcpy(tag[(*nt)], "n_fR");
@@ -438,6 +478,7 @@ void read_mg_parameters(void **addr, char (*tag)[50], int *id, int (*nt)){
   strcpy(tag[(*nt)], "h0_fR");
   addr[(*nt)] = &h0_fR;
   id[(*nt)++] = FLOAT;  
+  
 
 #elif defined(VCDM_model)
 
@@ -510,6 +551,10 @@ double hubble(double a){
 
   return Toy_fR_Hubble_of_a(a); 
 
+ #elif defined(Toy_fR_Einstein)
+
+  return Toy_fR_Einstein_Hubble_of_a(a);   
+
 #elif defined(EQUATIONOFSTATE_PARAMETRIZATION)  
 
   // w(a) = w0 + wa(1-a) parametrization
@@ -536,6 +581,10 @@ double dhubbleda(double a){
  #elif defined(Toy_fR)
 
   return Toy_fR_dHubbleda_of_a(a);
+
+ #elif defined(Toy_fR_Einstein)
+
+  return Toy_fR_Einstein_dHubbleda_of_a(a);  
 
 #elif defined(EQUATIONOFSTATE_PARAMETRIZATION)  
 
@@ -567,10 +616,12 @@ double beta_of_a(double a){
 
   return 1.0/sqrt(6.0);
 
-#elif defined(Toy_fR)
+#elif defined(Toy_fR) || defined(Toy_fR_Einstein)
 
   return 1.0/sqrt(6.0);   //beta(a) = mpl dLn(A) / d\phi where \tilde{g}_{\mu\nu} = A^{2}g_{\mu\nu}
-                          // That meas A^{2} = e^{\sqrt{2/3} \phi /(mpl)}      
+                          // That meas A^{2} = e^{\sqrt{2/3} \phi /(mpl)} 
+                        
+
 
 #elif defined(MBETAMODEL)
   
@@ -607,6 +658,9 @@ double mass2_of_a(double a){
 
 #elif defined(Toy_fR)
   return Toy_fR_M2_of_a(a);
+
+#elif defined(Toy_fR_Einstein)
+  return Toy_fR_Einstein_Mass2_of_a(a);  
 
 
 #elif defined(MBETAMODEL)
@@ -650,6 +704,9 @@ double dmass2_of_ada(double a){
 #elif defined(Toy_fR)
   return Toy_fR_dM2da_of_a(a);
 
+//#elif defined(Toy_fR_Einstein)
+//  return Toy_fR_Einstein_dM2da_of_a(a);  
+
 #elif defined(MBETAMODEL)
   
   // For the symmetron we have
@@ -682,7 +739,7 @@ double dmass2_of_ada(double a){
 // computed by the code, but if the analytical expression  //
 // is known it's better to just define it here             //
 //=========================================================//
-#if defined(MBETAMODEL) || defined(Toy_fR)
+#if defined(MBETAMODEL) || defined(Toy_fR) || defined(Toy_fR_Einstein)
 double phi_of_a(double a){
 
   // E.g. for the symmetron we have
@@ -700,7 +757,7 @@ double phi_of_a(double a){
 // This is the function coupling(a)                        //
 //=========================================================//
 double coupling_function(double a){
-#if defined(FOFRGRAVITY) || defined(MBETAMODEL) || defined(Toy_fR)
+#if defined(FOFRGRAVITY) || defined(MBETAMODEL) || defined(Toy_fR) || defined(Toy_fR_Einstein)
 //Jose changes (We must check this coupling funtion )
   return 2.0 * beta_of_a(a) * beta_of_a(a);
 
@@ -736,7 +793,7 @@ double GeffoverG(double a, double k){
   if(! modified_gravity_active ) return mu;
   if(  use_lcdm_growth_factors ) return mu;
 
-#if defined(FOFRGRAVITY) || defined(MBETAMODEL) || defined(Toy_fR) 
+#if defined(FOFRGRAVITY) || defined(MBETAMODEL) || defined(Toy_fR) || defined(Toy_fR_Einstein) 
 //Jose changes
   double mass2a2 = a * a * mass2_of_a(a);
   double k2 = pow2(k * INVERSE_H0_MPCH);
@@ -807,7 +864,7 @@ void ComputeFifthForce(){
     return;
   }
 
-#if defined(FOFRGRAVITY) || defined(MBETAMODEL) || defined(Toy_fR)
+#if defined(FOFRGRAVITY) || defined(MBETAMODEL) || defined(Toy_fR) || defined(Toy_fR_Einstein)
 
   ComputeFifthForce_PotentialScreening();
 
@@ -848,7 +905,7 @@ double screening_factor_potential(double a, double phinewton){
   if(screenfac > 1.0) screenfac = 1.0;
   return screenfac;
 
-#elif defined(Toy_fR)
+#elif defined(Toy_fR) || defined(Toy_fR_Einstein) 
   double phicrit = phi_of_a(a);
   double screenfac = fabs(phicrit / phinewton);
   if(screenfac > 1.0) screenfac = 1.0;
@@ -936,7 +993,7 @@ double screening_factor_gradient(double a, double DPhi2){
 double Factor_2LPT(double a){
   if(! modified_gravity_active || use_lcdm_growth_factors) return 1.0;
 
-#if defined(FOFRGRAVITY) || defined(MBETAMODEL) || defined(Toy_fR)
+#if defined(FOFRGRAVITY) || defined(MBETAMODEL) || defined(Toy_fR) || defined(Toy_fR_Einstein)
 
   // This is scale-dependent for these models so we compute this elsewhere
   // Only relevant if use_lcdm_growth_factors = 1 for which we return 1.0 above
@@ -980,11 +1037,25 @@ double fofr_pi_factor(double k, double a){
 // This is Pi/H0^2 as defined in Bose&Koyama needed        //
 // to compute the second order kernel in f(R)              //
 // Assuming k in units of h/Mpc                            //
+// PI/H0^{2} = k^{2}/a^{2} + M1/3.
 //=========================================================//
 double Toy_fR_pi_factor(double k, double a){
   return pow2(k * INVERSE_H0_MPCH / a) + Toy_fR_M_1_of_a(a)/3.; 
 }
 #endif
+
+#ifdef Toy_fR_Einstein
+//=========================================================//
+// This is Pi/H0^2 as defined in Bose&Koyama needed        //
+// to compute the second order kernel in f(R)              //
+// Assuming k in units of h/Mpc                            //
+// PI/H0^{2} = k^{2}/a^{2} + V_{\phi\phi}
+//=========================================================//
+double Toy_fR_Einstein_pi_factor(double k, double a){
+  return pow2(k * INVERSE_H0_MPCH / a) + Toy_fR_Einstein_M_1_of_a(a); 
+}
+#endif
+
 
 //=========================================================//
 // This is the integral kernel gamma_2(k,k1,k2,a)          //
@@ -1013,6 +1084,12 @@ double second_order_kernel(double k, double k1, double k2, double costheta, doub
 
   gamma2 = -pow2(Omega/a3) * pow2( k * INVERSE_H0_MPCH / (a * hubble(a)) ) * Toy_fR_M_2_of_a(a)/12.;
   gamma2 /= Toy_fR_pi_factor(k,a) * Toy_fR_pi_factor(k1,a) * Toy_fR_pi_factor(k2,a);
+
+
+#elif defined(Toy_fR_Einstein)
+
+  gamma2 = -sqrt(2)*pow2(Toy_fR_Einstein_rho_m_of_a(a)) * pow2( k * INVERSE_H0_MPCH / (a * hubble(a)) ) * Toy_fR_Einstein_M_2_of_a(a)/24.;
+  gamma2 /= Toy_fR_Einstein_pi_factor(k,a) * Toy_fR_Einstein_pi_factor(k1,a) * Toy_fR_Einstein_pi_factor(k2,a);  
 
 #elif defined(DGPGRAVITY)
 

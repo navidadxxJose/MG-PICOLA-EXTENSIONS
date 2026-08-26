@@ -130,6 +130,8 @@ double Omegam;                  // The physical matter density parameter Omega *
 double OmegaDE;                 // The physical radiation density parameter Omegar * h^2
 double Omegar;                 // The physical dark energy density parameter Omegav * h^2
 double h0_fR;                 // The physical dark energy density parameter Omegav * h^2
+//#elif defined(Toy_fR_Einstein)
+//double Omegam;                  // The physical matter density parameter Omega * h^2
 #elif defined(VCDM_model)
 double w0_VCDM;                      // Equation of state  
 #endif
