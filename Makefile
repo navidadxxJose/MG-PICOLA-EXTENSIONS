@@ -39,10 +39,13 @@ ifndef MODEL
   #MODEL = FOFR
   
   # f(R) gravity with LCDM LPT growth factors
-  MODEL = FOFR_LCDM
+  #MODEL = FOFR_LCDM
 
   # f(R) gravity Toy Model
   #MODEL = Toy_fR
+
+  # f(R) gravity Toy Model
+  MODEL = Toy_fR_Einstein
 
    # VCDM model
   #MODEL = VCDM_model
@@ -83,6 +86,14 @@ endif
 ifeq ($(MODEL), Toy_fR)
   # Toy f(R) model
   MGMODEL  = -DToy_fR
+  OPTIONS += $(MGMODEL)
+  OPTIONS += -DSCALEDEPENDENT
+  MODELISDEFINED = TRUE  
+endif
+
+ifeq ($(MODEL), Toy_fR_Einstein)
+  # Toy f(R) model
+  MGMODEL  = -DToy_fR_Einstein
   OPTIONS += $(MGMODEL)
   OPTIONS += -DSCALEDEPENDENT
   MODELISDEFINED = TRUE  
@@ -363,7 +374,7 @@ LIBS   =   -lm $(MPI_LIBs) $(FFTW_LIBS) $(GSL_LIBS)
 
 CFLAGS =   $(OPTIMIZE) $(FFTW_INCL) $(GSL_INCL) $(MPI_INCL) $(OPTIONS)
 
-OBJS  = src/main.o src/cosmo.o src/auxPM.o src/2LPT.o src/power.o src/vars.o src/read_param.o src/timer.o src/msg.o src/wrappers.o src/jbd.o src/toy_fR_Jordan.o
+OBJS  = src/main.o src/cosmo.o src/auxPM.o src/2LPT.o src/power.o src/vars.o src/read_param.o src/timer.o src/msg.o src/wrappers.o src/jbd.o src/toy_fR_Jordan.o src/toy_fR_Einstein.o
 OBJS += src/compute_pofk.o src/readICfromfile.c
 ifdef GENERIC_FNL
   OBJS += src/kernel.o
