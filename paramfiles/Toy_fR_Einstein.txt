@@ -10,8 +10,8 @@ amplitude_fixed_initial_condition 0
 % ==================
 % Simulation outputs
 % ==================
-OutputDir                   output/Toy_fR_Einstein/Toy_fR_Einstein_0 
-FileBase                    Toy_fR_Einstein_0                
+OutputDir                   output/ 
+FileBase                    Toy_fR_Einstein_27                
 OutputRedshiftFile          files/output_redshifts.dat     
 NumFilesWrittenInParallel   4                              
 
@@ -31,7 +31,7 @@ WhichSpectrum    1
 
 WhichTransfer    0          
 
-FileWithInputSpectrum  files/Toy_fR_Einstein.dat      % expecting k Pk 
+FileWithInputSpectrum  files/Toy_fR_Einstein_pk.dat      % expecting k Pk 
 
 FileWithInputTransfer  files/input_transfer_function.dat   
 

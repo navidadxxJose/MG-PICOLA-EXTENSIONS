@@ -1,4 +1,4 @@
-modified_gravity_active  1              % f(R) simulation [1] or  LCDM [0]
+modified_gravity_active  1            
 n_fR                    0.8           
 Omegam                  0.292363011  
 Omegar                  0.00009101179970000001
@@ -16,7 +16,7 @@ amplitude_fixed_initial_condition 0
 % ==================
 % Simulation outputs
 % ==================
-OutputDir                   output/Toy_fR/toy
+OutputDir                   output/
 FileBase                    Toy_fR_27                
 OutputRedshiftFile          files/output_redshifts.dat     
 NumFilesWrittenInParallel   4                              
@@ -40,7 +40,7 @@ WhichSpectrum    1
 
 WhichTransfer    0           
 
-FileWithInputSpectrum   files/Toy_fR_Jordan.dat    % expecting k Pk 
+FileWithInputSpectrum   files/Toy_fR_Jordan_pk.dat    % expecting k Pk 
                                                         
 FileWithInputTransfer  files/input_transfer_function.dat   
 

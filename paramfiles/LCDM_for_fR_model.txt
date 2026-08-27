@@ -12,8 +12,8 @@ amplitude_fixed_initial_condition 0
 % ==================
 % Simulation outputs
 % ==================
-OutputDir                   output/Toy_fR/toy
-FileBase                    Toy_fR_27                
+OutputDir                   output/
+FileBase                    LCDM_27                
 OutputRedshiftFile          files/output_redshifts.dat     
 NumFilesWrittenInParallel   4                              
 
@@ -54,7 +54,8 @@ PrimordialIndex  0.9624
 
 
 
-%=======================                                                              % Units
+%=======================                                                              
+% Units
 % =======================                                                                                             
 UnitLength_in_cm                3.085678e24       
 UnitMass_in_g                   1.989e43          
