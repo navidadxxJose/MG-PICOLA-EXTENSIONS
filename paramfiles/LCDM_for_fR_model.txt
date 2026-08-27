@@ -1,0 +1,78 @@
+modified_gravity_active  0              
+
+
+include_screening        0              
+use_lcdm_growth_factors  1              
+input_sigma8_is_for_lcdm 1             
+input_pofk_is_for_lcdm   1              
+inverted_initial_condition        0     
+amplitude_fixed_initial_condition 0     
+
+
+% ==================
+% Simulation outputs
+% ==================
+OutputDir                   output/Toy_fR/toy
+FileBase                    Toy_fR_27                
+OutputRedshiftFile          files/output_redshifts.dat     
+NumFilesWrittenInParallel   4                              
+
+
+% =========================
+% Simulation Specifications
+% =========================
+
+UseCOLA          1          
+Buffer           3       
+Nmesh            1024          
+Nsample          512         
+Box              1000.0       
+Init_Redshift    9.0       
+Seed             27       
+SphereMode       0           
+
+WhichSpectrum    1          
+                             
+
+WhichTransfer    0           
+
+FileWithInputSpectrum   files/LCDM_pk.dat    % expecting k Pk 
+                                                        
+FileWithInputTransfer  files/input_transfer_function.dat   
+
+
+
+% =======================
+% Cosmological Parameters
+% =======================
+
+Omega            0.292363011       
+OmegaBaryon      0.0494697150      
+HubbleParam      0.677681       
+Sigma8           0.834         
+PrimordialIndex  0.9624       
+
+
+
+%=======================                                                              % Units
+% =======================                                                                                             
+UnitLength_in_cm                3.085678e24       
+UnitMass_in_g                   1.989e43          
+UnitVelocity_in_cm_per_s        1e5              
+InputSpectrum_UnitLength_in_cm  3.085678e24       
+
+
+% =============================================================== %
+% Additional parameters are needed if we want non-gaussianity
+% or lightcone sims. See original PICOLA for this
+% =============================================================== %
+
+% --- P(k) Parameters ---
+pofk_compute_every_step = 1   
+pofk_bintype            = 1    
+pofk_nbins              = 40  
+pofk_kmin               = 0.0  
+pofk_kmax               = 1.0 
+pofk_subtract_shotnoise = 1   
+pofk_compute_rsd_pofk   = 2   
+
