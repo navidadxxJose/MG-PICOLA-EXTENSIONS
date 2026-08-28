@@ -1,5 +1,6 @@
 modified_gravity_active  0              
-
+fofr0                    0          
+nfofr                    0.0 
 
 include_screening        0              
 use_lcdm_growth_factors  1              
